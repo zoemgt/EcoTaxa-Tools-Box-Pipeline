@@ -66,16 +66,27 @@ for i = 1:m
     base(i).sample_initial_col_vol_m3 = toNum(unique(S.sample_total_volume)) / 1000; % L -> m3
     base(i).volume_imaged_processed   = toNum(unique(S.acq_imaged_volume))   / 1e6;  % mL -> m3
 
-    % Concentration factor (default 1 if absent or all-NaN)
+    % Dilution / concentration correction (multiplicative factor applied to conver)
+    % Priority 1: sample_dilution_factor (multiplied)
+    % Priority 2: sample_concentration_factor (divided)
+    % Default: 1 (no correction)
+    base(i).dilution_factor      = NaN;
+    base(i).concentration_factor = NaN;
+    if ismember('sample_dilution_factor', S.Properties.VariableNames)
+        df = toNum(unique(S.sample_dilution_factor));
+        if ~isempty(df) && ~all(isnan(df)), base(i).dilution_factor = df(1); end
+    end
     if ismember('sample_concentration_factor', S.Properties.VariableNames)
         cf = toNum(unique(S.sample_concentration_factor));
-        if isempty(cf) || all(isnan(cf))
-            base(i).concentration_factor = 1;
-        else
-            base(i).concentration_factor = cf;
-        end
+        if ~isempty(cf) && ~all(isnan(cf)), base(i).concentration_factor = cf(1); end
+    end
+
+    if ~isnan(base(i).dilution_factor)
+        base(i).volume_factor = base(i).dilution_factor;           % multiply by dilution factor
+    elseif ~isnan(base(i).concentration_factor)
+        base(i).volume_factor = 1 / base(i).concentration_factor;  % divide by concentration factor
     else
-        base(i).concentration_factor = 1;
+        base(i).volume_factor = 1;                                 % no correction
     end
 
     %% Size fractions
@@ -115,10 +126,8 @@ for i = 1:m
         end
 
         % Conversion factor [m-3]
-        base(i).(fn).conver = base(i).volconc ./ ...
-            (base(i).concentration_factor .* ...
-             base(i).volume_imaged_processed .* ...
-             base(i).sample_initial_col_vol_m3);
+        base(i).(fn).conver = base(i).volconc .* base(i).volume_factor ./ ...
+            (base(i).volume_imaged_processed .* base(i).sample_initial_col_vol_m3);
 
     end
 end
