@@ -213,12 +213,12 @@ for i = 1:m
 end
 
 %% NBSS extraction and truncation
-% Active method: Plain Area (change field name below to switch method)
+% Active method: Ellipsoid (recommended, Vandromme et al. 2012; change field name below to switch method)
 for i = 1:numel(base)
     r = base(i).regroupped;
-    base(i).regroupped.NBSSliving  = r.Ybv_Plain_Area_BV_spectra(:, r.livingplace);
-    base(i).regroupped.NBSSpft     = r.Ybv_Plain_Area_BV_spectra(:, r.planktongroupplace(1):r.planktongroupplace(2));
-    base(i).regroupped.NBSStrophic = r.Ybv_Plain_Area_BV_spectra(:, r.trophicplace(1):r.trophicplace(2));
+    base(i).regroupped.NBSSliving  = r.Ybv_Ellipsoid_BV_spectra(:, r.livingplace);
+    base(i).regroupped.NBSSpft     = r.Ybv_Ellipsoid_BV_spectra(:, r.planktongroupplace(1):r.planktongroupplace(2));
+    base(i).regroupped.NBSStrophic = r.Ybv_Ellipsoid_BV_spectra(:, r.trophicplace(1):r.trophicplace(2));
 end
 
 % Helper: truncate NBSS (remove rising limb, zeros, isolated tails)
@@ -248,16 +248,16 @@ for i = 1:numel(base)
     base(i).regroupped.NBSStrophic_trunked = truncate_nbss(base(i).regroupped.NBSStrophic);
 end
 
-%% NBSS slope and intercept (linear regression on log10-transformed trunked NBSS)
+%% NBSS slope and intercept (linear regression of log10(NBSS) on log10(biovolume))
 for i = 1:numel(base)
-    X    = base(i).tot.X;
+    X    = base(i).tot.X / log(10);   % class midpoints: ln(mm3) -> log10(mm3), same base as log10(NBSS)
     NBSS = log10(base(i).regroupped.NBSSliving_trunked);
     valid = ~isnan(X) & ~isnan(NBSS);
 
-    if sum(valid) >= 3
+    if sum(valid) >= 5
         coef = polyfit(X(valid), NBSS(valid), 1);
-        base(i).regroupped.NBSSliving_slope     = coef(1);
-        base(i).regroupped.NBSSliving_intercept = coef(2);
+        base(i).regroupped.NBSSliving_slope     = coef(1);   % slope b
+        base(i).regroupped.NBSSliving_intercept = coef(2);   % intercept a = log10(NBSS) at 1 mm3
     else
         base(i).regroupped.NBSSliving_slope     = NaN;
         base(i).regroupped.NBSSliving_intercept = NaN;
