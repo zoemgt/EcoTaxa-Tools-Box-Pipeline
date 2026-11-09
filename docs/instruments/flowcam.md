@@ -30,14 +30,16 @@ These fields are read and stored, but not used in calculations. They must be pre
 
 The volume actually processed is first corrected for the images that were not processed:
 
-$$V_{processed} = \frac{acq\_fluid\_volume\_imaged}{acq\_raw\_image\_total} \times \min(acq\_raw\_image\_total,\ process\_nb\_images)$$
+$$V_{processed} = \frac{V_{imaged}}{N_{raw}} \times \min(N_{raw},\ N_{processed})$$
 
 Then, for each fraction:
 
 $$conver = \frac{V_{concentrated}}{V_{processed} \times V_{collected} \times f}$$
 
-- $V_{concentrated}$: volume of the concentrated sample (`sample_conc_vol_ml`, converted to m³);
-- $V_{processed}$: volume imaged and processed (converted to m³);
+- $V_{imaged}$: volume of fluid imaged (`acq_fluid_volume_imaged`, converted from mL to m³);
+- $N_{raw}$: total number of raw images acquired (`acq_raw_image_total`);
+- $N_{processed}$: number of raw images processed (`process_nb_images`);
+- $V_{concentrated}$: volume of the concentrated sample (`sample_conc_vol_ml`, converted from mL to m³);
 - $V_{collected}$: volume of water collected (`sample_initial_col_vol_m3`, m³);
 - $f$: fraction of the images annotated (1 by default; e.g. 0.3 if 30 % were annotated, see section 3).
 

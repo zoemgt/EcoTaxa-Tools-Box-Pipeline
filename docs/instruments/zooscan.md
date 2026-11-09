@@ -27,10 +27,10 @@ These fields are read and stored, but not used in calculations. They must be pre
 
 For each fraction, the conversion factor from imaged objects to concentration is:
 
-$$conver = \frac{acq\_sub\_part}{sample\_tot\_vol}$$
+$$conver = \frac{S}{V_{filtered}}$$
 
-- `acq_sub_part`: sub-sampling factor of the fraction (number of parts the sample was split into);
-- `sample_tot_vol`: volume filtered by the net (m³).
+- $S$: sub-sampling factor of the fraction (`acq_sub_part`; e.g. 4 if 1/4 of the sample was scanned);
+- $V_{filtered}$: volume of water filtered by the net (`sample_tot_vol`, m³).
 
 Abundance (ind m⁻³) = number of objects × `conver`.
 

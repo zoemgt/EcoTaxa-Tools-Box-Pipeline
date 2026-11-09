@@ -28,9 +28,9 @@ The fields `object_lat_end` and `object_lon_end` are optional.
 
 The IFCB analyses a known volume of water directly, without concentration:
 
-$$conver = \frac{1}{acq\_volume\_sampled}$$
+$$conver = \frac{1}{V_{sampled}}$$
 
-- `acq_volume_sampled`: volume of water analysed (converted from mL to m³).
+- $V_{sampled}$: volume of water analysed (`acq_volume_sampled`, converted from mL to m³).
 
 Abundance (ind m⁻³) = number of objects × `conver`.
 
