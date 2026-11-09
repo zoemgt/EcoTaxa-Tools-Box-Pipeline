@@ -63,11 +63,11 @@ A small test dataset (3 samples) is provided for each instrument in `test_data/`
 
 | Instrument | Folder | Source |
 |---|---|---|
-| ZooScan | `test_data/zooscan/` | Tara Pacific expedition (Mériguet et al., 2025), [EcoTaxa project #11292](https://ecotaxa.obs-vlfr.fr/prj/11292) |
-| FlowCam (single fraction) | `test_data/flowcam/single_fraction/` | [to be completed] |
-| FlowCam (two fractions) | `test_data/flowcam/two_fractions/` | Tara Pacific expedition (Mériguet et al., 2024, 2025): 100 % annotated ([EcoTaxa project #11341](https://ecotaxa.obs-vlfr.fr/prj/11341)) and 30 % annotated ([EcoTaxa project #11353](https://ecotaxa.obs-vlfr.fr/prj/11353)) |
+| ZooScan | `test_data/zooscan/` | Tara Pacific expedition : [EcoTaxa project #11292](https://ecotaxa.obs-vlfr.fr/prj/11292) |
+| FlowCam (single fraction) | `test_data/flowcam/single_fraction/` | Tonga : [EcoTaxa project #2841](https://ecotaxa.obs-vlfr.fr/prj/2841) |
+| FlowCam (two fractions) | `test_data/flowcam/two_fractions/` | Tara Pacific expedition : 100 % annotated ([EcoTaxa project #11341](https://ecotaxa.obs-vlfr.fr/prj/11341)) and 30 % annotated ([EcoTaxa project #11353](https://ecotaxa.obs-vlfr.fr/prj/11353)) |
 | IFCB | `test_data/ifcb/` | [to be completed] |
-| PlanktoScope | `test_data/planktoscope/` | Ada-II 2023 expedition (Mériguet et al., 2026, under review), [EcoTaxa project #10056](https://ecotaxa.obs-vlfr.fr/prj/10056) |
+| PlanktoScope | `test_data/planktoscope/` | Ada-II 2023 expedition : [EcoTaxa project #10056](https://ecotaxa.obs-vlfr.fr/prj/10056) |
 
 1. In MATLAB, run `EcoTaxa_Tool_Box`.
 2. Choose **EcoTaxa export (tsv files) — process now**.
