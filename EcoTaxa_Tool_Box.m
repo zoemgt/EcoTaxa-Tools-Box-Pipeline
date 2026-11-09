@@ -653,6 +653,18 @@ if doSave
 end
 pause(1); close gcf
 
+%% ── 12. Optional: multivariate analyses ──────────────────────────────────
+
+f = warndlg('This module is an example tool for exploring the data. Normalisation, ordination and clustering methods should be selected by an expert, adapted to your dataset and objectives.', 'Before you start');
+uiwait(f);
+
+list2 = {'Yes', 'No'};
+[indxMulti, tf] = listdlg('PromptString', 'Run optional multivariate analyses (PCA, PCoA, CA, clustering)?', ...
+    'ListString', list2, 'SelectionMode', 'single', 'ListSize', [400, 200]);
+if tf && indxMulti == 1
+    multivariates_analysis_following;  % works for all instruments (IFCB, FlowCam, PlanktoScope, ZooScan)
+end
+
 %% ── Local helper functions ───────────────────────────────────────────────
 
 % filter_groups: interactive exclusion dialog
