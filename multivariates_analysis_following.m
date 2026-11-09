@@ -1160,7 +1160,7 @@ hold on
 m_grid('fontsize',8,'linestyle','none','meridianlabel','off','parallellabel','off','xtick',[],'ytick',[]);
 
 hold on;
-m_scatter(lon,lat, 50, slope_values, 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
+m_scatter(lon(:), lat(:), 50, slope_values(:), 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
 
 color = slandarerCM(6).Colors{1,9};  % spectral (change manually)
 colormap(color);

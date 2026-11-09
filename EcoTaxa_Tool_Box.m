@@ -1,11 +1,40 @@
-%% EcoTaxa Tool Box — main pipeline (MATLAB 2025b compatible)
+%% EcoTaxa Tool Box — main pipeline (MATLAB R2025b)
 %
-% Processes EcoTaxa exports from quantitative imaging instruments
-% (UVP, IFCB, FlowCam, PlanktoScope, ZooScan) and produces ecological
-% figures: maps, abundance/biovolume bar charts, NBSS spectra,
-% and multivariate analyses.
+% Open-source pipeline to process and explore taxonomically annotated
+% images hosted on EcoTaxa (https://ecotaxa.obs-vlfr.fr/), for four
+% quantitative imaging instruments: IFCB, FlowCam, PlanktoScope, ZooScan.
 %
-% Reference pipeline: github.com/zoemgt/ecotaxatools
+% This is the only script to run. It guides you through two parts:
+%   1. Processing  — merges the EcoTaxa tsv exports (one file per sample)
+%                    into a single database and computes abundances,
+%                    biovolumes and NBSS (runs ecotaxa_tools.m).
+%                    Output: base_<instrument>_<project>.mat
+%   2. Analysis    — loads the .mat base and produces exploratory figures:
+%                    maps, bar charts, NBSS and NBSS slopes, and optional
+%                    multivariate analyses (multivariates_analysis_following.m).
+%
+% Quick start:
+%   addpath(genpath(pwd))      % from the repository folder
+%   EcoTaxa_Tool_Box
+%   Test datasets (3 samples per instrument) are provided in test_data/.
+%
+% Documentation (step-by-step guide, outputs, instrument pages):
+%   https://github.com/zoemgt/EcoTaxa-Tools-Box-Pipeline
+%   https://zoemgt.github.io/EcoTaxa-Tools-Box-Pipeline
+%     - docs/getting-started.md         dialogs, taxonomic grouping, outputs folders
+%     - docs/outputs.md                 structure, variables and units of the .mat base
+%     - docs/instruments/<instrument>.md   required EcoTaxa metadata and volume conversion
+%
+% An equivalent R version is available at:
+%   https://github.com/HZaccomer/EcotaxaTools
+%
+% Citation: Mériguet, Z. et al. (2026) Studying plankton communities from
+% annotated quantitative images on EcoTaxa: an automated plankton community
+% processing and analysis pipeline. Journal of Plankton Research (under review).
+%
+% Contact: Zoé Mériguet (zoemeriguet@gmail.com),
+%          Fabien Lombard (fabien.lombard@imev-mer.fr)
+% License: MIT
 
 clear all
 close all
@@ -477,7 +506,7 @@ m_coast('patch', landcolor, 'edgecolor', [0.6 0.6 0.6]); hold on
 m_grid('fontsize', 8, 'linestyle', 'none', 'meridianlabel', 'off', 'parallellabel', 'off', 'xtick', [], 'ytick', []);
 color2 = slandarerCM(2).Colors{1,15};
 colormap(flipud(color2));
-m_scatter(lon, lat, 50, diversityH, 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
+m_scatter(lon(:), lat(:), 50, diversityH(:), 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
 c = colorbar; title(c, 'Shannon Index', 'FontSize', 11, 'FontWeight', 'bold');
 if doSave
     exportgraphics(gcf, fullfile('global raw analysis', 'Map of diversity.pdf'), 'ContentType', 'vector', 'BackgroundColor', 'none');
@@ -572,7 +601,7 @@ if tf && indx5 == 1
         else
             scaled_size = repmat(50, size(datamap));
         end
-        m_scatter(lon, lat, scaled_size, datamap, 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
+        m_scatter(lon(:), lat(:), scaled_size(:), datamap(:), datamap, 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
         c2 = colorbar;
         if indx3b==1; title(c2, 'Abundance (ind m^{-3})', 'FontSize', 10, 'FontWeight', 'bold');
         else;          title(c2, 'Biovolume (mm m^{-3})',  'FontSize', 10, 'FontWeight', 'bold'); end
@@ -643,7 +672,7 @@ figure('NumberTitle', 'off', 'Position', [10 50 scrsz(3) scrsz(4)-150], 'Color',
 m_proj('mercator', 'lon', [lonmin lonmax], 'lat', [latmin latmax]);
 m_coast('patch', landcolor, 'edgecolor', [0.6 0.6 0.6]); hold on
 m_grid('fontsize', 8, 'linestyle', 'none', 'meridianlabel', 'off', 'parallellabel', 'off', 'xtick', [], 'ytick', []);
-m_scatter(lon, lat, 50, slope_values, 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
+m_scatter(lon(:), lat(:), 50, slope_values(:), 'filled', 'markeredgecolor', [0.5 0.5 0.5]);
 load('slanCM_Data.mat');
 color = slandarerCM(6).Colors{1,9};
 colormap(flipud(color));

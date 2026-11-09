@@ -180,10 +180,9 @@ if ~isempty(new_taxa)
     table_groupage = [table_groupage; addon];
     tosave = array2table(table_groupage);
 
+        cd(directoryoftoolbox);
     copyfile('trophic_affiliation_of_organisms.xlsx', ...
         ['trophic_affiliation_of_organisms_backup_' char(datetime('now', 'Format', 'yyyyMMdd_HHmmss')) '.xlsx']);
-
-    cd(directoryoftoolbox);
     writetable(tosave, 'trophic_affiliation_of_organisms.xlsx', 'WriteVariableNames', false);
     cd(folder);
 end
