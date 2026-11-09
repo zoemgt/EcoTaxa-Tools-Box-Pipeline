@@ -74,12 +74,14 @@ You can edit this file to adapt the affiliations to your dataset.
 
 > **Warning.** These choices are written permanently into `trophic_affiliation_of_organisms.xlsx` and will be applied to all your future runs, for every dataset. Check each choice carefully before validating. A backup copy of the previous file is saved automatically in the repository folder (`trophic_affiliation_of_organisms_backup_<date>.xlsx`): to undo a mistake, restore it or edit the file directly in Excel.
 
-**Temporary categories (t00X).** Objects that cannot be assigned to a taxon are grouped by annotators in EcoTaxa into temporary morphotypes (t001, t002…). Their meaning differs from one project to another, so they are not stored in the main affiliation file. The pipeline offers three options:
+**Temporary categories (t00X).** Objects that cannot be identified are usually annotated in broad categories such as "other<plankton", which may end up containing a large and heterogeneous part of the plankton. As an alternative, used at the Quantitative Imaging Platform of Villefranche-sur-Mer (PIQv), visually consistent groups of unidentified objects can be annotated in EcoTaxa as temporary morphotypes (`t001`, `t002`…). This keeps them isolated: they can be identified later, or analysed separately.
+
+Using these categories is optional. If your project does not contain any, the pipeline skips this step. If it does, their meaning is specific to your project, so they are not stored in the main affiliation file: the pipeline offers three options.
 
 | Choice | What happens |
 |---|---|
 | Yes — load them | Select an existing mapping file (`.xlsx`) for these categories. |
-| No — create them | A window opens for each category. The mapping is saved in a separate `.xlsx` file, which you can reload for the next runs. |
+| No — create them | A window opens for each category: choose its living status, plankton group and trophic group. The mapping is saved in a separate `.xlsx` file, which you can reload for the next runs. |
 | No — ignore them (not recommended) | These objects are removed from the analysis. |
 
 ## 5. Part 2 — Analysis

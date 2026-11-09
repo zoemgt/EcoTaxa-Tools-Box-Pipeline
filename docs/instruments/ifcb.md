@@ -46,7 +46,7 @@ No additional window. The IFCB is processed by dedicated scripts (`process_spect
 
 ## 5. Test dataset
 
-Folder `test_data/ifcb/` ([to be completed]).
+Folder `test_data/ifcb/` (Tara Microbiome expedition, [EcoTaxa project #262710] https://ecotaxa.obs-vlfr.fr/gui/job/show/262710).
 
 1. Run `EcoTaxa_Tool_Box`, choose **EcoTaxa export (tsv files) — process now**.
 2. Select `test_data/ifcb/`, then **IFCB**.
