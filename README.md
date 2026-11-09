@@ -10,20 +10,27 @@ It reads the tsv files exported from EcoTaxa for one instrument, merges them int
 - normalized biovolume size spectra (NBSS), with slope and intercept;
 - summary figures per station and for the whole dataset (maps, compositions, size spectra, trophic pyramids).
 
-The pipeline runs in two parts:
+## How it works
 
-| Part | Script | Input | Output |
-|---|---|---|---|
-| 1. Processing | `ecotaxa_tools.m` | EcoTaxa `.tsv` exports (one file per sample) | `base_<instrument>_<project>.mat` |
-| 2. Analysis | `EcoTaxa_Tool_Box.m` | the `.mat` base from part 1 | PDF figures, sorted into folders |
+Run a single script: **`EcoTaxa_Tool_Box.m`**. It guides you through two successive parts:
 
-`EcoTaxa_Tool_Box.m` is the main entry point: it can run part 1 first, then part 2.
+1. **Processing**: the tsv files exported from EcoTaxa are merged into a single database, and abundances, biovolumes and NBSS are computed. This part is run automatically by `EcoTaxa_Tool_Box.m` (it calls `ecotaxa_tools.m`; you do not need to open it). The result is saved as `base_<instrument>_<project>.mat`.
+2. **Analysis**: the `.mat` base is loaded and the figures are produced and saved as PDF, sorted into folders.
+
+At launch, you choose where to start:
+
+| Your data | Choice at launch | What happens |
+|---|---|---|
+| EcoTaxa tsv exports, not yet processed | **EcoTaxa export (tsv files) — process now** | Processing, then you can stop or continue to the analysis |
+| A `.mat` base already created | **Matlab base.mat — already processed** | Analysis only, without reprocessing |
+
+> An optional module for multivariate analyses (PCA, PCoA, hierarchical clustering) can then be run on the `.mat` base: `multivariates_analysis_following.m`.
 
 ## Supported instruments
 
 | Instrument | Size range | Instrument-specific notes |
 |---|---|---|
-| [ZooScan](docs/instruments/zooscan.md) | > 200 µm | Several size fractions per sample (d1, d2), sub-sampling via `acq_sub_part` |
+| [ZooScan](docs/instruments/zooscan.md) | > 200 µm | Optional several size fractions per sample (d1, d2), sub-sampling via `acq_sub_part` |
 | [FlowCam](docs/instruments/flowcam.md) | 20–200 µm | Optional two fractions with different sub-sampling rates |
 | [IFCB](docs/instruments/ifcb.md) | 10–150 µm | No `area_exc` field: no riddled-area biovolume |
 | [PlanktoScope](docs/instruments/planktoscope.md) | 20–200 µm | Concentration and dilution factors required |
