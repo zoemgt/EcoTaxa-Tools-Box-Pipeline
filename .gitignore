@@ -1,0 +1,10 @@
+.DS_Store
+test_data/**/base_*.mat
+test_data/**/raw analysis per station/
+test_data/**/global raw analysis/
+test_data/**/NBSS analysis/
+test_data/**/multivariates analysis/
+test_data/**/*_excluded.xlsx
+test_data/**/Map of stations.pdf
+test_data/**/temporarymapping_*.xlsx
+trophic_affiliation_of_organisms_backup_*.xlsx
