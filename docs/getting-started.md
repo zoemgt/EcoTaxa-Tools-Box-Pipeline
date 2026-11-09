@@ -70,7 +70,9 @@ Each taxonomic annotation is assigned to three grouping levels, defined in the f
 
 You can edit this file to adapt the affiliations to your dataset.
 
-**New taxa.** If your dataset contains taxa that are not yet in the file, a window opens for each of them: choose its living status, plankton group and trophic group. These new affiliations are added permanently to `trophic_affiliation_of_organisms.xlsx`.
+**New taxa.** If your dataset contains taxa that are not yet in the file, a window opens for each of them: choose its living status, plankton group and trophic group.
+
+> **Warning.** These choices are written permanently into `trophic_affiliation_of_organisms.xlsx` and will be applied to all your future runs, for every dataset. Check each choice carefully before validating. A backup copy of the previous file is saved automatically in the repository folder (`trophic_affiliation_of_organisms_backup_<date>.xlsx`): to undo a mistake, restore it or edit the file directly in Excel.
 
 **Temporary categories (t00X).** Objects that cannot be assigned to a taxon are grouped by annotators in EcoTaxa into temporary morphotypes (t001, t002…). Their meaning differs from one project to another, so they are not stored in the main affiliation file. The pipeline offers three options:
 

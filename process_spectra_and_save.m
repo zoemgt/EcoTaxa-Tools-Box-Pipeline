@@ -155,6 +155,12 @@ for i = 1:numel(zoo_groups)
 end
 
 if ~isempty(new_taxa)
+
+    f = warndlg({['New taxa were found (' num2str(numel(new_taxa)) '). A window will open for each of them.'], ...
+        'Your choices will be saved permanently in trophic_affiliation_of_organisms.xlsx and applied to all future runs.', ...
+        'A backup copy of the current file will be created.'}, 'New taxa');
+    uiwait(f);
+
     groups = table_groupage(:, 2:end);
     group1 = unique(groups(:,1));
     group2 = unique(groups(:,2));
@@ -173,6 +179,10 @@ if ~isempty(new_taxa)
     if size(addon,2) >= 5, addon(:,5) = []; end
     table_groupage = [table_groupage; addon];
     tosave = array2table(table_groupage);
+
+    copyfile('trophic_affiliation_of_organisms.xlsx', ...
+        ['trophic_affiliation_of_organisms_backup_' char(datetime('now', 'Format', 'yyyyMMdd_HHmmss')) '.xlsx']);
+
     cd(directoryoftoolbox);
     writetable(tosave, 'trophic_affiliation_of_organisms.xlsx', 'WriteVariableNames', false);
     cd(folder);

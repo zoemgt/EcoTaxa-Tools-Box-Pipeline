@@ -24,7 +24,7 @@ At launch, you choose where to start:
 | EcoTaxa tsv exports, not yet processed | **EcoTaxa export (tsv files) — process now** | Processing, then you can stop or continue to the analysis |
 | A `.mat` base already created | **Matlab base.mat — already processed** | Analysis only, without reprocessing |
 
-> An optional module for multivariate analyses (PCA, PCoA, hierarchical clustering) can then be run on the `.mat` base: `multivariates_analysis_following.m`.
+> An optional module for multivariate analyses (PCA, PCoA, hierarchical clustering) can then be run on the `.mat` base: `multivariates_analysis_following.m`. See [Getting started](docs/getting-started.md#6-optional-multivariate-analyses).
 
 ## Supported instruments
 

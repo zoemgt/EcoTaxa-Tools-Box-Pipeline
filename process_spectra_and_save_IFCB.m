@@ -134,6 +134,11 @@ end
 new_taxa = zoo_groups(~cellfun(@(x) any(strcmp(x, Zoo_groups_ref)), zoo_groups));
 
 if ~isempty(new_taxa)
+    f = warndlg({['New taxa were found (' num2str(numel(new_taxa)) '). A window will open for each of them.'], ...
+        'Your choices will be saved permanently in trophic_affiliation_of_organisms.xlsx and applied to all future runs.', ...
+        'A backup copy of the current file will be created.'}, 'New taxa');
+    uiwait(f);
+
     groups = table_groupage(:, 2:end);
     group1 = unique(groups(:,1));
     group2 = unique(groups(:,2));
@@ -150,6 +155,8 @@ if ~isempty(new_taxa)
     if size(addon,2) >= 5, addon(:,5) = []; end
     table_groupage = [table_groupage; addon];
     cd(directoryoftoolbox);
+    copyfile('trophic_affiliation_of_organisms.xlsx', ...
+        ['trophic_affiliation_of_organisms_backup_' char(datetime('now', 'Format', 'yyyyMMdd_HHmmss')) '.xlsx']);
     writetable(array2table(table_groupage), 'trophic_affiliation_of_organisms.xlsx', 'WriteVariableNames', false);
     cd(folder);
 end
@@ -161,7 +168,7 @@ end
 
 %% Regroup taxa by living, PFT, and trophic levels
 for i = 1:m
-    base(i).regroupped = f_regroup_all_IFCB(table_groupage, base(i).tot);
+    base(i).regroupped = f_regroup_all(table_groupage, base(i).tot);
 end
 
 %% Summary resume tables
