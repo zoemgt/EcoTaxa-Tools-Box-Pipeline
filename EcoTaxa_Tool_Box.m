@@ -224,12 +224,22 @@ for i = 1:m
         relAb_group = zeros(size(ab_group_row));
     end
 
+    % Number of images (all imaged objects, all size fractions, before exclusions)
+    nimg = 0;
+    for f = 1:numel(base(i).fracids)
+        fn = ['d' num2str(f)];
+        if isfield(base(i), fn) && isfield(base(i).(fn), 'Abtot')
+            nimg = nimg + sum(base(i).(fn).Abtot, 'omitnan');
+        end
+    end
+
     % Panel 1 — station info
     subplot(3,4,1); axis off
-    text(0, 0.8, sid, 'FontSize', 11, 'FontWeight', 'bold');
-    text(0, 0.5, ['Total abundance (ind m^{-3}): '  num2str(Ab_tot(i), '%.2f')], 'FontSize', 10);
-    text(0, 0.3, ['Total biovolume (mm^3 m^{-3}): ' num2str(Bv_tot(i), '%.4f')], 'FontSize', 10);
-    text(0, 0.1, ['Shannon index: ' num2str(H, '%.2f')],                          'FontSize', 10);
+    text(0, 0.9,  sid, 'FontSize', 11, 'FontWeight', 'bold');
+    text(0, 0.65, ['Number of images: ' num2str(nimg)],                             'FontSize', 10);
+    text(0, 0.45, ['Total abundance (ind m^{-3}): '  num2str(Ab_tot(i), '%.2f')], 'FontSize', 10);
+    text(0, 0.25, ['Total biovolume (mm^3 m^{-3}): ' num2str(Bv_tot(i), '%.4f')], 'FontSize', 10);
+    text(0, 0.05, ['Shannon index: ' num2str(H, '%.2f')],                          'FontSize', 10);
 
     % Panel 2 — NBSS
     ax2 = subplot(3,4,2);
@@ -251,7 +261,7 @@ for i = 1:m
     title('NBSS', 'FontSize', 10);
 
     % Panel 3 — relative abundance pie
-    subplot(3,4,3);
+    ax3 = subplot(3,4,3);
     relAb_pie = relAb_group;
     relAb_pie(~isfinite(relAb_pie)) = 0;
     if sum(relAb_pie) > 0
@@ -261,12 +271,13 @@ for i = 1:m
         text(0.5, 0.5, 'No data', 'HorizontalAlignment', 'center'); axis off;
     end
     title('Relative abundance', 'FontSize', 10);
-    l = legend(plankton_groups_data_group, 'FontSize', 8, 'Location', 'west', 'NumColumns', 2);
-    set(l, 'Position', [0.72 0.45 0.2 0.41]);
+    l = legend(plankton_groups_data_group, 'FontSize', 8, 'NumColumns', 2, 'Box', 'off');
+    p3 = get(ax3, 'Position');   % to the right of the pie charts, over rows 1 and 2
+    set(l, 'Units', 'normalized', 'Position', [p3(1) + p3(3) + 0.03, p3(2) - 0.30, 0.17, p3(4) + 0.30]);
     title(l, 'Plankton groups', 'FontSize', 10);
 
     % Panel 5 — trophic pyramid
-    subplot(3,4,5);
+    ax5 = subplot(3,4,5);
     color_troph = trophic_colors(plankton_groups_data_troph);
     height_t = str2double(plankton_groups_data_troph);
     width_t  = log(data_bv_troph(i,:) + 1);
@@ -279,8 +290,9 @@ for i = 1:m
     end
     xlabel('log biovolume +1 (mm^3/m^3)', 'FontSize', 8);
     title('Trophic pyramid', 'FontSize', 10);
-    l = legend(h_patch, plankton_groups_data_troph_name, 'FontSize', 8, 'Location', 'west', 'NumColumns', 2);
-    set(l, 'Position', [0.130 0.150 0.15 0.15]);
+    l = legend(h_patch, plankton_groups_data_troph_name, 'FontSize', 8, 'NumColumns', 2, 'Box', 'off');
+    p5 = get(ax5, 'Position');   % below the trophic pyramid
+    set(l, 'Units', 'normalized', 'Position', [p5(1), p5(2) - 0.26, p5(3), 0.18]);
     title(l, 'Trophic groups', 'FontSize', 10);
 
     % Panel 6 — BSS
